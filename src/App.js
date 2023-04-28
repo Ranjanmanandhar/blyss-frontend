@@ -1,38 +1,36 @@
-import logo from './logo.svg';
+import React, { useState } from "react";
 import './App.css';
+import Otp from "./component/Otp";
 
-function App() {
-  return (
-    <div className="App">
+export default function App() {
+  const [otp, setOtp] = useState('');
+  const value = '';
+  const onChange = (value)=>{
+    setOtp(value);
+  };
 
-      <form class="otc" name="one-time-code" action="#">
-        <fieldset>
+  const handleSubmit = () => {
+    let otpCollection= document.getElementsByClassName('otp-input');
+    let otpArray = [];
+    // console.log(Array.from(otp))
 
+    Array.from(otpCollection).map((otp)=>{
+      otpArray.push(otp.value)
+    })
 
-          <h2>Validation Code</h2>
-          {/* <label for="otc-1">Number 1</label>
-          <label for="otc-2">Number 2</label>
-          <label for="otc-3">Number 3</label>
-          <label for="otc-4">Number 4</label>
-          <label for="otc-5">Number 5</label>
-          <label for="otc-6">Number 6</label> */}
-          <div>
-            <input type="number" pattern="[0-9]*" value="" inputtype="numeric" autocomplete="one-time-code" id="otc-1" required />
-            <input type="number" pattern="[0-9]*" min="0" max="9" maxlength="1" value="" inputtype="numeric" id="otc-2" required />
-            <input type="number" pattern="[0-9]*" min="0" max="9" maxlength="1" value="" inputtype="numeric" id="otc-3" required />
-            <input type="number" pattern="[0-9]*" min="0" max="9" maxlength="1" value="" inputtype="numeric" id="otc-4" required />
-            <input type="number" pattern="[0-9]*" min="0" max="9" maxlength="1" value="" inputtype="numeric" id="otc-5" required />
-            <input type="number" pattern="[0-9]*" min="0" max="9" maxlength="1" value="" inputtype="numeric" id="otc-6" required />
-          </div>
+    fetch("https://blys-backend.onrender.com/otp/verify",{
+      method: "POST",
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(otpArray)
+    }).then((res)=>res.json())
+      .then((json)=>console.log(json));
 
+  }
 
-        </fieldset>
-      </form>
+  return <div className="container">
+    <h2>Verification Code:</h2>
+    <Otp value={otp} valueLength={6} onChange={onChange}/> 
 
-
-
-    </div>
-  );
+    <button id="submit" className="submit" onClick={handleSubmit}>SUBMIT</button>
+  </div>;
 }
-
-export default App;
