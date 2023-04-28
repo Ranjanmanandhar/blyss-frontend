@@ -3,15 +3,23 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { disableReactDevTools } from '@fvilers/disable-react-devtools'; 
+import { disableReactDevTools } from '@fvilers/disable-react-devtools';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Success from './component/Success';
 
 
-if(process.env.NODE_ENV === 'production') disableReactDevTools()
+
+if (process.env.NODE_ENV === 'production') disableReactDevTools()
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Routes>
+        <Route path = "/" element = {<App/>}></Route>
+        <Route path = "/success" element = {<Success/>}></Route>
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>
 );
 

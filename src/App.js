@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import './App.css';
 import Otp from "./component/Otp";
+import {useNavigate} from "react-router-dom";
 
 
 export default function App() {
+  const navigate = useNavigate();
+
   const [otp, setOtp] = useState('');
   const value = '';
   const onChange = (value)=>{
@@ -19,13 +22,20 @@ export default function App() {
       otpArray.push(otp.value)
     })
 
-    fetch("https://blys-backend.onrender.com/otp/verify",{
+    console.log( JSON.stringify({otp:otpArray}));
+
+    fetch("http://localhost:50000/otp/verify",{
       method: "POST",
       headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(otpArray)
-    }).then((res)=>res.json())
-      .then((json)=>alert('success')
-      );
+      body: JSON.stringify({otp:otpArray})
+    }).then((res)=>{
+      console.log(res.status);
+      if (res.status >=200 && res.status < 300){
+        navigate('/success');
+      }else{
+        alert("Error. Length mismatch or internal server error");
+      }
+    });
 
   }
 
