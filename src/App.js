@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import './App.css';
 import Otp from "./component/Otp";
 
+
 export default function App() {
   const [otp, setOtp] = useState('');
   const value = '';
@@ -23,13 +24,16 @@ export default function App() {
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify(otpArray)
     }).then((res)=>res.json())
-      .then((json)=>console.log(json));
+      .then((json)=>alert('success')
+      );
 
   }
 
   return <div className="container">
     <h2>Verification Code:</h2>
     <Otp value={otp} valueLength={6} onChange={onChange}/> 
+    <span>You can only paste 6 digit numbers</span><br></br>
+
 
     <button id="submit" className="submit" onClick={handleSubmit}>SUBMIT</button>
   </div>;
