@@ -24,7 +24,7 @@ export default function App() {
 
     console.log( JSON.stringify({otp:otpArray}));
 
-    fetch("http://localhost:50000/otp/verify",{
+    fetch("https://blys-backend.onrender.com/otp/verify",{
       method: "POST",
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({otp:otpArray})
